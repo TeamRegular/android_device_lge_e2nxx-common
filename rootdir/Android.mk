@@ -1,20 +1,19 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE            := fstab.e7
+LOCAL_MODULE            := fstab.e2
 LOCAL_MODULE_TAGS       := optional eng
 LOCAL_MODULE_CLASS      := ETC
-LOCAL_SRC_FILES         := etc/fstab.e7
+LOCAL_SRC_FILES         := etc/fstab.e2
 LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
 # Init scripts
-
 include $(CLEAR_VARS)
-LOCAL_MODULE            := init.e7.rc
+LOCAL_MODULE            := init.e2.rc
 LOCAL_MODULE_TAGS       := optional eng
 LOCAL_MODULE_CLASS      := ETC
-LOCAL_SRC_FILES         := etc/init.e7.rc
+LOCAL_SRC_FILES         := etc/init.e2.rc
 LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
@@ -83,9 +82,9 @@ LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE            := ueventd.e7.rc
+LOCAL_MODULE            := ueventd.e2.rc
 LOCAL_MODULE_TAGS       := optional eng
 LOCAL_MODULE_CLASS      := ETC
-LOCAL_SRC_FILES         := etc/ueventd.e7.rc
+LOCAL_SRC_FILES         := etc/ueventd.e2.rc
 LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)

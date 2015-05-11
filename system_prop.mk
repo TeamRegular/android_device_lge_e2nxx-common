@@ -36,7 +36,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.hw=1 \
     persist.hwc.mdpcomp.enable=true \
     ro.opengles.version=196608 \
-    ro.sf.lcd_density=213
+    ro.sf.lcd_density=240
 
 # GPS
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -68,9 +68,15 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.cabl=0 \
     ro.vendor.extension_library=/vendor/lib/libqc-opt.so
 
-# Recovery
+# Radio
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.cwm.forbid_format=/boot,/firmware,/mpt,/persist,/persist-lg,/sns
+    persist.radio.add_power_save=1 \
+    persist.radio.apm_sim_not_pwdn=1 \
+    ro.telephony.ril_class=LgeLteRIL
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.data.netmgrd.qos.enable=false \
+    ro.use_data_netmgrd=true
 
 # Sensors
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -78,7 +84,3 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.qualcomm.sns.hal=e \
     debug.qualcomm.sns.libsensor1=e \
     ro.qc.sdk.sensors.gestures=false
-
-# USB
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.isUsbOtgEnabled=true

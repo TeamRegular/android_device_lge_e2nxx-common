@@ -1,7 +1,7 @@
 [
   {
-    "repository": "android_kernel_lge_v4xx",
-    "target_path": "kernel/lge/v4xx"
+    "repository": "android_kernel_lge_e2nxx",
+    "target_path": "kernel/lge/e2nxx"
   },
   {
     "repository": "android_device_qcom_common",

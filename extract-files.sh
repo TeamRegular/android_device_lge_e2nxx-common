@@ -46,13 +46,13 @@ else
   fi
 fi
 
-BASE=../../../vendor/$VENDOR/v4xx-common/proprietary
-rm -rf ../../../vendor/$VENDOR/v4xx-common
+BASE=../../../vendor/$VENDOR/e2nxx-common/proprietary
+rm -rf ../../../vendor/$VENDOR/e2nxx-common
 
 DEVBASE=../../../vendor/$VENDOR/$DEVICE/proprietary
 rm -rf ../../../vendor/$VENDOR/$DEVICE
 
-extract ../../$VENDOR/v4xx-common/proprietary-files.txt $BASE
+extract ../../$VENDOR/e2nxx-common/proprietary-files.txt $BASE
 if [ -s ../../$VENDOR/$DEVICE/proprietary-files.txt ]; then
   extract ../../$VENDOR/$DEVICE/proprietary-files.txt $DEVBASE
 fi

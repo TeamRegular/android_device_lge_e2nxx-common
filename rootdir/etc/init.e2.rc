@@ -1,5 +1,4 @@
 import /init.zetaw.rc
-import /init.lge.early.rc
 import /init.lge.rc
 
 on early-init
@@ -13,16 +12,14 @@ on early-init
     export VIBE_PIPE_PATH /dev/pipes
     mkdir /dev/pipes 0771 shell shell
 
-on init
-
 on fs
-    mount_all fstab.e7
+    mount_all fstab.e2
     restorecon_recursive /sns
     restorecon_recursive /persist
     restorecon_recursive /persist-lg
 
     # Enable zRAM
-    swapon_all /fstab.e7
+    swapon_all /fstab.e2
 
     setprop ro.crypto.fuse_sdcard true
 
@@ -48,30 +45,21 @@ on post-fs-data
 on early-boot
 
 on boot
-   chown media media /sys/bus/platform/devices/cam_sensor_vt/antibanding
-   chmod 644 /sys/bus/platform/devices/cam_sensor_vt/antibanding
 
-   # Touch
-   chmod 664 /sys/devices/virtual/input/lge_touch/touch_gesture
-   chown system system /sys/devices/virtual/input/lge_touch/touch_gesture
-   chmod 664 /sys/devices/virtual/input/lge_touch/knock_on_type
-   chown system system /sys/devices/virtual/input/lge_touch/knock_on_type
-   chmod 664 /sys/devices/virtual/input/lge_touch/global_access_pixel
-   chown system system /sys/devices/virtual/input/lge_touch/global_access_pixel
-   chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_data
-   chown system system /sys/devices/virtual/input/lge_touch/lpwg_data
-   chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_notify
-   chown system radio /sys/devices/virtual/input/lge_touch/lpwg_notify
-   chmod 664 /sys/devices/virtual/input/lge_touch/incoming_call
-   chown system system /sys/devices/virtual/input/lge_touch/incoming_call
-   chmod 664 /sys/devices/virtual/input/lge_touch/lockscreen
-   chown system system /sys/devices/virtual/input/lge_touch/lockscreen
-   chmod 664 /sys/devices/virtual/input/lge_touch/ime_status
-   chown system system /sys/devices/virtual/input/lge_touch/ime_status
-   chmod 664 /sys/devices/virtual/input/lge_touch/object_ctrl
-   chown system system /sys/devices/virtual/input/lge_touch/object_ctrl
-   chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
-   chown system system /sys/devices/virtual/input/lge_touch/keyguard
+    # Backlight
+    chmod 664 /sys/class/leds/lcd-backlight/brightness
+
+    # Touch
+    chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_alc
+    chown system system /sys/devices/virtual/input/lge_touch/lpwg_alc
+    chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_alc_data
+    chown system system /sys/devices/virtual/input/lge_touch/lpwg_alc_data
+    chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_data
+    chown system system /sys/devices/virtual/input/lge_touch/lpwg_data
+    chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_notify
+    chown system radio /sys/devices/virtual/input/lge_touch/lpwg_notify
+    chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
+    chown system system /sys/devices/virtual/input/lge_touch/keyguard
 
    # MDP idle notifier
    chown system graphics /sys/class/graphics/fb0/idle_time
@@ -90,20 +78,21 @@ on property:init.svc.servicemanager=restarting
     restart qcamerasvr
 
 service time_daemon /system/bin/time_daemon
-   class late_start
-   user root
-   group root
+    class late_start
+    user root
+    group root
 
 service mpdecision /system/bin/mpdecision --avg_comp
-   user root
-   disabled
+    user root
+    disabled
 
 service thermal-engine /system/bin/thermal-engine
-   class main
-   user root
-   group root
+    class main
+    user root
+    group root
 
 on property:sys.boot_completed=1
+
     # Set up KSM
     write /sys/kernel/mm/ksm/deferred_timer 1
     write /sys/kernel/mm/ksm/pages_to_scan 100
@@ -144,7 +133,7 @@ on property:sys.ims.DATA_DAEMON_STATUS=1
     start ims_rtp_daemon
 
 service wcnss-service /system/bin/wcnss_service
-    class late_start
-    user root
-    group system wifi
-    oneshot
+   class late_start
+   user root
+   group system wifi
+   oneshot
