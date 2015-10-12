@@ -101,9 +101,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     e2fsck
 
-# GPS
+# IPv6 tethering
 PRODUCT_PACKAGES += \
-    gps.msm8226
+    ebtables \
+    ethertypes
 
 # IRSC
 PRODUCT_COPY_FILES += \
