@@ -85,10 +85,6 @@ PRODUCT_PACKAGES += \
     init.zetaw.bt_vendor.rc \
     bdAddrLoader
 
-# Camera
-#PRODUCT_PACKAGES += \
-#    camera.msm8226
-
 # Display
 PRODUCT_PACKAGES += \
     copybit.msm8226 \
