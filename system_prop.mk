@@ -1,26 +1,19 @@
-# WARNING - much of this is a straight kang from g3-common
-
 # Art
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dex2oat-flags=--no-watch-dog
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
-    media.aac_51_output_enabled=true
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    mm.enable.smoothstreaming=true
-
-PRODUCT_PROPERTY_OVERRIDES += \
     persist.audio.fluence.voicecall=true \
     persist.audio.fluence.voicerec=false \
-    persist.audio.fluence.speaker=true
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.qc.sdk.audio.fluencetype=fluence
-
-PRODUCT_PROPERTY_OVERRIDES += \
+    persist.audio.fluence.speaker=false \
+    ro.qc.sdk.audio.fluencetype=fluence \
+    tunnel.audio.encode=true
     use.voice.path.for.pcm.voip=true
+
+# Camera
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    camera2.portability.force_api=1
 
 # CNE
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -35,15 +28,20 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # GPS
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.gps.qc_nlp_in_use=1 \
+    persist.gps.qc_nlp_in_use=0 \
     persist.loc.nlp_name=com.qualcomm.services.location \
     ro.gps.agps_provider=1 \
+    ro.pip.gated=0 \
     ro.qc.sdk.izat.premium_enabled=0 \
     ro.qc.sdk.izat.service_mask=0x0
 
-# KSM
+# Media
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.ksm.default=1
+    mm.enable.qcom_parser=37491 \
+    mm.enable.smoothstreaming=true \
+    mm.enable.vsync.render=1 \
+    media.aac_51_output_enabled=true \
+    qcom.hw.aac.encoder=true
 
 # NITZ
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -57,25 +55,40 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.rild.nitz_short_ons_2="" \
     persist.rild.nitz_short_ons_3=""
 
-# Qualcomm
+# Perf
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.timed.enable=true \
-    ro.qualcomm.cabl=0 \
-    ro.vendor.extension_library=/vendor/lib/libqc-opt.so
+    ro.min_freq_0=787200 \
+    ro.vendor.extension_library=/vendor/lib/libqti-perfd-client.so
 
 # Radio
 PRODUCT_PROPERTY_OVERRIDES += \
+    persist.data.netmgrd.qos.enable=false \
     persist.radio.add_power_save=1 \
     persist.radio.apm_sim_not_pwdn=1 \
-    ro.telephony.ril_class=LgeLteRIL
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.data.netmgrd.qos.enable=false \
+    persist.radio.msgtunnel.start=false \
+    ro.telephony.ril_class=LgeLteRIL \
     ro.use_data_netmgrd=true
 
-# Sensors
+# Sensor debugging
+# Valid settings (and presumably what they mean):
+#   0      - off
+#   1      - all the things
+#   V or v - verbose
+#   D or d - debug
+#   E or e - errors
+#   W or w - warnings
+#   I or i - info
+#
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.qualcomm.sns.daemon=e \
     debug.qualcomm.sns.hal=e \
     debug.qualcomm.sns.libsensor1=e \
     ro.qc.sdk.sensors.gestures=false
+
+# Set max background services
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.max_starting_bg=32
+
+# Time
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.timed.enable=true

@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
-
 $(call inherit-product-if-exists, vendor/lge/e2nxx-common/e2nxx-common-vendor.mk)
 
 # Overlay
@@ -27,7 +25,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
     frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:system/etc/permissions/android.hardware.sensor.stepcounter.xml \
@@ -58,32 +55,34 @@ TARGET_SCREEN_WIDTH := 480
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
-# Audio
-PRODUCT_COPY_FILES += \
-    device/lge/e2nxx-common/configs/mixer_paths.xml:system/etc/mixer_paths.xml
-
 PRODUCT_PACKAGES += \
     audiod \
     audio.a2dp.default \
     audio.primary.msm8226 \
     audio.r_submix.default \
     audio.usb.default \
-    audio_policy.msm8226
-
-PRODUCT_PACKAGES += \
-    libaudio-resampler \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing
 
 # Audio configuration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf
+    $(LOCAL_PATH)/configs/audio_effects.conf:system/vendor/etc/audio_effects.conf \
+    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
+    $(LOCAL_PATH)/configs/mixer_paths.xml:system/etc/mixer_paths.xml
 
 # Bluetooth
 PRODUCT_PACKAGES += \
     init.zetaw.bt_vendor.rc \
     bdAddrLoader
+
+# Charger
+PRODUCT_PACKAGES += \
+    charger_res_images
+
+# Connectivity Engine support
+PRODUCT_PACKAGES += \
+    libcnefeatureconfig
 
 # Display
 PRODUCT_PACKAGES += \
@@ -96,6 +95,10 @@ PRODUCT_PACKAGES += \
 # Filesystem
 PRODUCT_PACKAGES += \
     e2fsck
+
+# Idc
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/idc/touch_dev.idc:system/usr/idc/touch_dev.idc
 
 # IPv6 tethering
 PRODUCT_PACKAGES += \
@@ -110,13 +113,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl
 
-# Idc
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/idc/touch_dev.idc:system/usr/idc/touch_dev.idc
-
 # Keystore
-#PRODUCT_PACKAGES += \
-#    keystore.msm8226
+PRODUCT_PACKAGES += \
+    keystore.msm8226
 
 # Lights
 PRODUCT_PACKAGES += \
@@ -124,16 +123,14 @@ PRODUCT_PACKAGES += \
 
 # Media
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml
-
-PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
+    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
+    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml
 
-# Offmode Charging
+# Misc
 PRODUCT_PACKAGES += \
-    charger_res_images
+    libxml2
 
 # OMX
 PRODUCT_PACKAGES += \
@@ -154,9 +151,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
-# Power
+# Power HAL
 PRODUCT_PACKAGES += \
     power.msm8226
+
+# Qualcomm
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/qmi_config.xml:system/etc/data/qmi_config.xml
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -172,10 +173,6 @@ PRODUCT_PACKAGES += \
     init.zetaw.usb.sh \
     ueventd.e2.rc
 
-# RIL
-PRODUCT_PACKAGES += \
-    libxml2
-
 # Thermal
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine-8226.conf:system/etc/thermal-engine-8226.conf
@@ -186,9 +183,9 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
+    dhcpcd.conf \
     hostapd \
     hostapd_default.conf \
-    dhcpcd.conf \
     libwcnss_qmi \
     libwpa_client \
     wcnss_service \
@@ -196,8 +193,8 @@ PRODUCT_PACKAGES += \
     wpa_supplicant.conf
 
 PRODUCT_COPY_FILES += \
+    device/lge/e2nxx-common/wcnss/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     device/lge/e2nxx-common/wcnss/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
     device/lge/e2nxx-common/wcnss/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
     device/lge/e2nxx-common/wcnss/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin \
-    device/lge/e2nxx-common/wcnss/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     device/lge/e2nxx-common/wcnss/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf

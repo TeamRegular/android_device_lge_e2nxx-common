@@ -27,79 +27,90 @@
 #
 on boot
 
-           chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
-           chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
-           chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
-           chown bluetooth bluetooth /proc/bluetooth/sleep/proto
-           chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_lpm
-           chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_btwrite
-           chown system system /sys/module/sco/parameters/disable_esco
-           chown bluetooth bluetooth /sys/module/hci_smd/parameters/hcismd_set
-           chmod 0660 /sys/module/bluetooth_power/parameters/power
-           chmod 0660 /sys/module/hci_smd/parameters/hcismd_set
-           chmod 0660 /sys/class/rfkill/rfkill0/state
-           chmod 0660 /proc/bluetooth/sleep/proto
-           chown bluetooth bluetooth /dev/ttyHS0
-           chmod 0660 /sys/module/hci_uart/parameters/ath_lpm
-           chmod 0660 /sys/module/hci_uart/parameters/ath_btwrite
-           chmod 0660 /dev/ttyHS0
-           chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
-           chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
-           chmod 0660 /dev/ttyHS2
-           chown bluetooth bluetooth /dev/ttyHS2
+#           chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
+#           chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+#           chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+#           chown bluetooth bluetooth /proc/bluetooth/sleep/proto
+#           chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_lpm
+#           chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_btwrite
+#           chown system system /sys/module/sco/parameters/disable_esco
+#           chown bluetooth bluetooth /sys/module/hci_smd/parameters/hcismd_set
+#           chmod 0660 /sys/module/bluetooth_power/parameters/power
+#           chmod 0660 /sys/module/hci_smd/parameters/hcismd_set
+#           chmod 0660 /sys/class/rfkill/rfkill0/state
+#           chmod 0660 /proc/bluetooth/sleep/proto
+#           chown bluetooth bluetooth /dev/ttyHS0
+#           chmod 0660 /sys/module/hci_uart/parameters/ath_lpm
+#           chmod 0660 /sys/module/hci_uart/parameters/ath_btwrite
+#           chmod 0660 /dev/ttyHS0
+#           chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
+#           chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
+#           chown system system /sys/devices/platform/kcal_ctrl.0/kcal
+#           chown system system /sys/devices/platform/kcal_ctrl.0/kcal_ctrl
+#           chmod 0660 /dev/ttyHS2
+#           chown bluetooth bluetooth /dev/ttyHS2
 
-on property:bluetooth.sap.status=running
-    start bt-sap
+           # Feature chip vendor : qct
+           setprop bluetooth.chip.vendor qcom
 
-on property:bluetooth.sap.status=stopped
-    stop bt-sap
+#on property:bluetooth.sap.status=running
+#    start bt-sap
 
-on property:bluetooth.dun.status=running
-    start bt-dun
+#on property:bluetooth.sap.status=stopped
+#    stop bt-sap
 
-on property:bluetooth.dun.status=stopped
-    stop bt-dun
+#on property:bluetooth.dun.status=running
+#    start bt-dun
 
-on property:bluetooth.start_hci=true
-    start start_hci_filter
+#on property:bluetooth.dun.status=stopped
+#    stop bt-dun
 
-on property:bluetooth.start_hci=false
-    stop start_hci_filter
+#on property:bluetooth.start_hci=true
+#    start start_hci_filter
 
-service start_hci_filter /system/bin/wcnss_filter
-    class late_start
-    user bluetooth
-    group bluetooth
-    disabled
+#on property:bluetooth.start_hci=false
+#    stop start_hci_filter
 
-service config_bluetooth /system/bin/sh /system/etc/init.zetaw.bt.sh "onboot"
-    class core
+#service start_hci_filter /system/bin/wcnss_filter
+#    class late_start
+#    user bluetooth
+#    group bluetooth
+#    disabled
+
+#service config_bluetooth /system/bin/sh /system/etc/init.zetaw.bt.sh "onboot"
+#    class core
+#    user root
+#    oneshot
+
+service bdaddr_loader /system/bin/bdaddr_loader
     user root
-    oneshot
-
-service hciattach /system/bin/sh /system/etc/init.zetaw.bt.sh
-    class late_start
-    user bluetooth
-    group bluetooth net_bt_admin
+    group bluetooth net_bt_admin misc net_bt_stack
     disabled
     oneshot
 
-on property:bluetooth.hciattach=true
-    start hciattach
+#service hciattach /system/bin/sh /system/etc/init.zetaw.bt.sh
+#    class late_start
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
 
-on property:bluetooth.hciattach=false
-    setprop bluetooth.status off
+#on property:bluetooth.hciattach=true
+#    start hciattach
 
-service hciattach_ath3k /system/bin/sh /system/etc/init.ath3k.bt.sh
-     class late_start
-     user bluetooth
-     group system bluetooth net_bt_admin misc
-     disabled
-     oneshot
+#on property:bluetooth.hciattach=false
+#    setprop bluetooth.status off
 
-service btwlancoex /system/bin/sh /system/etc/init.zetaw.coex.sh
-    class late_start
-    user bluetooth
-    group bluetooth net_bt_admin inet net_admin net_raw
-    disabled
-    oneshot
+#service hciattach_ath3k /system/bin/sh /system/etc/init.ath3k.bt.sh
+#     class late_start
+#     user bluetooth
+#     group system bluetooth net_bt_admin misc
+#     disabled
+#     oneshot
+
+#service btwlancoex /system/bin/sh /system/etc/init.zetaw.coex.sh
+#    class late_start
+#    user bluetooth
+#    group bluetooth net_bt_admin inet net_admin net_raw
+#    disabled
+#    oneshot
