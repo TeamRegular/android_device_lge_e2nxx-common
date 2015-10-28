@@ -161,17 +161,9 @@ PRODUCT_COPY_FILES += \
 
 # Ramdisk
 PRODUCT_PACKAGES += \
-    fstab.e2 \
-    init.e2.rc \
-    init.e2.usb.rc \
-    init.lge.rc \
-    init.zetaw.class_core.sh \
-    init.zetaw.rc \
-    init.zetaw-sensor.sh \
-    init.zetaw.sh \
-    init.zetaw.usb.rc \
-    init.zetaw.usb.sh \
-    ueventd.e2.rc
+    fstab.qcom \
+    init.qcom.rc \
+    ueventd.qcom.rc
 
 # Thermal
 PRODUCT_COPY_FILES += \
